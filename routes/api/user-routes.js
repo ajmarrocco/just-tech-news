@@ -5,7 +5,7 @@ const { User } = require('../../models');
 router.get('/', (req, res) => {
   // Access our User model and run .findAll() method) - Select all users from User table and send it back as JSON
     User.findAll({
-        attributes: { exclude: ['password'] }
+        // attributes: { exclude: ['password'] }
     })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
@@ -57,6 +57,8 @@ router.put('/:id', (req, res) => {
 
     // if req.body has exact key/value pairs to match the model, you can just use `req.body` instead
     User.update(req.body, {
+        // Emit hooks for each individual record, along with the bulk hooks. Saves available memory
+        individualHooks: true,
         where: {
             id: req.params.id
         }

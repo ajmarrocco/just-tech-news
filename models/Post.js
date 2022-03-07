@@ -30,7 +30,6 @@ Post.init(
         user_id: {
             type: DataTypes.INTEGER,
             references: {
-                // Establishes relationships between this post and the user
                 model: 'user',
                 key: 'id'
             }

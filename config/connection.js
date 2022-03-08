@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 
 require('dotenv').config();
 
+// always make equal to let not const (const must equal something)
 let sequelize;
 
 if (process.env.JAWSDB_URL) {

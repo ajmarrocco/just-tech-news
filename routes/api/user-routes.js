@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Post, Vote } = require("../../models");
 
 // GET /api/users
 router.get('/', (req, res) => {
@@ -20,7 +20,20 @@ router.get('/:id', (req, res) => {
         // attributes: { exclude: ['password'] },
         where: {
             id: req.params.id
-        }
+        },
+        include: [
+            {
+                model: Post,
+                attributes: ['id', 'title', 'post_url', 'created_at']
+            },
+            {
+                // Using through table association we created earlier
+                model: Post,
+                attributes: ['title'],
+                through: Vote,
+                as: 'voted_posts'
+            }
+        ]
     })
     .then(dbUserData => {
         if (!dbUserData) {
@@ -67,6 +80,7 @@ router.post('/login', (req, res) => {
         // add comment syntax in front of this line in the .then()
         // res.json({ user: dbUserData });
         // Verify user
+        // Example of an instance method
         const validPassword = dbUserData.checkPassword(req.body.password);
 
         if (!validPassword) {

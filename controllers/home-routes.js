@@ -31,6 +31,9 @@ router.get('/', (req, res) => {
         // console.log(dbPostData[0]);
         const posts = dbPostData.map(post => post.get({ plain: true }));
         res.render('homepage', { posts });
+        router.get('/login', (req, res) => {
+            res.render('login');
+        });
     })
     .catch(err => {
         console.log(err);
